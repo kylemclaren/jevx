@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "jevx",
+  "version": "0.1.0",
+  "description": "Indexes and dedupes every tweet you load on X into local SQLite, then sorts, scores and searches them with TypeSafe's Jev.",
+  "minimum_chrome_version": "120",
+  "permissions": ["storage", "unlimitedStorage", "offscreen", "alarms", "tabs"],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://twitter.com/*",
+    "https://api.typesafe.ai/*",
+    "https://auth.openai.com/*",
+    "https://chatgpt.com/*",
+    "https://pbs.twimg.com/*",
+    "https://api.github.com/*",
+    "https://raw.githubusercontent.com/*",
+    "http://localhost:1455/*"
+  ],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "content_scripts": [
+    { "matches": ["https://x.com/*", "https://twitter.com/*"], "js": ["inject.js"], "run_at": "document_start", "world": "MAIN" },
+    { "matches": ["https://x.com/*", "https://twitter.com/*"], "js": ["content.js"], "run_at": "document_start" }
+  ],
+  "action": { "default_title": "Open jevx", "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" } },
+  "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "content_security_policy": { "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'" }
+}
